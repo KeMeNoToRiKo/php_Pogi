@@ -1,78 +1,84 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP Pogi</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../css/style.css" rel="stylesheet">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
-    <!-- Blurred background effects -->
-    <div class="blur-bg blur1"></div>
-    <div class="blur-bg blur2"></div>
-    <div class="blur-bg blur3"></div>
-    <div class="blur-bg blur4"></div>
-    <div class="main-content">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-3">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="#">
-                        <img src="../assets/logo-.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top me-2">
-                        Soniqueo
-                </a>
-                <div class="container-fluid justify-content-center d-flex">
-                    <form class="d-flex ms-3" role="search" style="max-width: 300px;">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
-                    </form>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                    </ul>
-                    
+    <header class="text-white py-3">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <img src="../assets/logo-.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
+                <span class="fs-3 fw-bold">Soniqueo</span>
+            </div>
+            <form class="d-flex" style="width: 250px;">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-wechat fs-4"></i>
+                <i class="bi bi-person-circle fs-4"></i>
+            </div>
+        </div>
+        <nav class="mt-3">
+            <div class="container">
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="#" class="text-white mx-2 text-decoration-none">Shop</a>
+                    <a href="#" class="text-white mx-2 text-decoration-none">New Arrivals</a>
+                    <a href="#" class="text-white mx-2 text-decoration-none">Sale</a>
                 </div>
             </div>
         </nav>
-        <!-- Hero Section -->
-        <div class="container text-center" style="padding-top: 60px; padding-bottom: 60px;">
-            <div class="section-title" id="info-title">INFO</div>
-            <button class="btn btn-gradient" id="getStartedBtn">Get Started</button>
+    </header>
+
+    <!-- MAIN -->
+
+    <section class="hero-container text-center text-white py-5">
+        <div class="container">
+            <p class="fs-5 mb-4">Find your sound. Play your soul. Only at Soniqueo.</p>
         </div>
-        <!-- About Section -->
-        <div class="container text-center">
-            <div class="about-title">About our Store</div>
+        <div class="banner mx-auto mb-4">
+            <img src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg" alt="Guitar Hero" class="img-fluid w-100" style="object-fit: cover; height: 250px;">
         </div>
-        <!-- Footer -->
-    </div>
-    <footer class="footer">
-        <div class="footer-text">FOOTER</div>
+    </section>
+
+    <!-- shop -->
+    <section class="shop-container text-center py-5">
+        <div class="container">
+            <h2 class="mb-4" style="font-family: 'Georgia', serif;">Shop</h2>
+            <div class="row justify-content-center mb-4">
+                <div class="col-6 col-sm-4 col-md-2 mb-3">
+                    <img src="https://images.pexels.com/photos/374870/pexels-photo-374870.jpeg" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;" alt="Lifestyle">
+                    <div>Lifestyle</div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 mb-3">
+                    <img src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;" alt="Guitars">
+                    <div>Guitars</div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 mb-3">
+                    <img src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&fit=crop&w=100&q=80" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;" alt="Drums & Percussion">
+                    <div>Drums & Percussion</div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 mb-3">
+                    <img src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&fit=crop&w=100&q=80" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;" alt="Recordings">
+                    <div>Recordings</div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 mb-3">
+                    <img src="https://images.pexels.com/photos/164936/pexels-photo-164936.jpeg?auto=compress&fit=crop&w=100&q=80" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;" alt="Amplifiers and Effects">
+                    <div>Amplifiers and Effects</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="text-center py-2">
+        <div class="container">
+            <p class="mb-0">© 2025 Soniqueo. All rights reserved.</p>
+        </div>
     </footer>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    document.getElementById('getStartedBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.body.classList.add('fade-out');
-        setTimeout(function() {
-            window.location.href = 'registration.php';
-        }, 600); // match CSS transition duration
-    });
-    </script>
 </body>
 </html>
