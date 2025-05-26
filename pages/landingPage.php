@@ -20,7 +20,16 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-transparent pt-3">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Brand Name/Website Name</a>
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                        <img src="../assets/logo-.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top me-2">
+                        Soniqueo
+                </a>
+                <div class="container-fluid justify-content-center d-flex">
+                    <form class="d-flex ms-3" role="search" style="max-width: 300px;">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -36,6 +45,7 @@
                             <a class="nav-link" href="#">Contact</a>
                         </li>
                     </ul>
+                    
                 </div>
             </div>
         </nav>
