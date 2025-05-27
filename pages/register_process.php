@@ -1,64 +1,81 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "soniqueo_db";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $servername = "localhost";
+    $username = "root";
+    $password_db = "";  // renamed to avoid confusion with form $password
+    $dbname = "soniqueo_db";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Safely fetch POST data
-$first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
-$last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
-$email = isset($_POST['email']) ? trim($_POST['email']) : '';
-$password = $_POST['password'] ?? '';
-$confirm_password = $_POST['confirm_password'] ?? '';
-
-$errors = [];
-$success = false;
-
-// Validation
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors[] = "Invalid email format.";
-}
-if ($password !== $confirm_password) {
-    $errors[] = "Passwords do not match.";
-}
-if (strlen($password) < 6) {
-    $errors[] = "Password must be at least 6 characters.";
-}
-
-// Check if email already exists
-$stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    $errors[] = "Email is already registered.";
-}
-$stmt->close();
-
-// Insert new user
-if (empty($errors)) {
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $first_name, $last_name, $email, $hashed_password);
-
-    if ($stmt->execute()) {
-        $success = true;
-    } else {
-        $errors[] = "Database error: " . $stmt->error;
+    $conn = new mysqli($servername, $username, $password_db, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    $stmt->close();
-}
 
-$conn->close();
+    // Safely get POST inputs or default to empty strings
+    $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+    $last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
+
+    $errors = [];
+
+    // Validate inputs
+    if (empty($first_name)) {
+        $errors[] = "First name is required.";
+    }
+    if (empty($last_name)) {
+        $errors[] = "Last name is required.";
+    }
+    if (empty($email)) {
+        $errors[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    } elseif (strlen($password) < 6) {
+        $errors[] = "Password must be at least 6 characters.";
+    }
+    if ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // Check if email already exists
+    if (empty($errors)) {
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $errors[] = "Email is already registered.";
+        }
+
+        $stmt->close();
+    }
+
+    $success = false;
+
+    if (empty($errors)) {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $first_name, $last_name, $email, $hashed_password);
+        if ($stmt->execute()) {
+            $success = true;
+        } else {
+            $errors[] = "Database error: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+    $conn->close();
+} else {
+    // Redirect if accessed without POST
+    header('Location: registrationPage.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +83,6 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Registration Result</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/registration.css">
@@ -88,11 +104,10 @@ $conn->close();
     </header>
 
     <section class="text-center mt-5">
-        <div class="container">
+        <div class="login-container">
             <?php if ($success): ?>
                 <div class="alert alert-success">
-                    Registration successful! 🎉<br>
-                    <a href="login.php" class="btn btn-dark mt-3">Go to Login</a>
+                    Registration successful! <a href="login.php" class="btn btn-dark">Go to login</a>.
                 </div>
             <?php else: ?>
                 <div class="alert alert-danger">
@@ -102,7 +117,7 @@ $conn->close();
                             <li><?= htmlspecialchars($error) ?></li>
                         <?php endforeach; ?>
                     </ul>
-                    <a href="registration.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
+                    <a href="registrationPage.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
                 </div>
             <?php endif; ?>
         </div>
