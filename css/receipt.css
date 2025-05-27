@@ -1,0 +1,61 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #999, #bbb);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.receipt-container {
+    background: linear-gradient(to right, #000, #191970);
+    color: white;
+    padding: 60px;
+    max-width: 600px;
+    margin: 80px auto;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.receipt-container h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.receipt-container h2 {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.receipt-box {
+    text-align: left;
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.receipt-item {
+    margin-bottom: 10px;
+}
+
+.total {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.back-to-store {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background: white;
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.back-to-store:hover {
+    background: #f0f0f0;
+}
