@@ -1,4 +1,5 @@
-<?php
+<?php 
+//jojo hello
 session_start();
 
 // Handle add to cart from product page
