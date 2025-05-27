@@ -45,6 +45,10 @@
         class="w-100 h-100"
         style="object-fit: cover; display: block; border-radius: 20px" />
 </section>
+  <!-- Shop Now Button -->
+      <a href="loginPage.php" class="btn btn-primary mt-4 px-4 py-2 fs-5">Shop Now</a>
+    </div>
+
   </div>
 
   </section>
