@@ -112,7 +112,7 @@ function displayCategory($title, $items) {
     <footer class="text-white py-4 mt-5" style="background: linear-gradient(to right, #000000, #1a1a80);">
         <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
             <div class="d-flex align-items-center mb-3 mb-md-0">
-                <img src="../assets/logo-.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
+                <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
                 <span class="fs-5 fw-bold">Soniqueo</span>
             </div>
 

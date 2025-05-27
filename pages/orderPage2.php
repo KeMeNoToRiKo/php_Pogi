@@ -74,6 +74,7 @@
                 </div>
             </form>
         </div>
+        
     <?php
         else:
             echo "<p>Product not found.</p>";
@@ -82,6 +83,6 @@
         echo "<p>No product selected.</p>";
     endif;
     ?>
-    <footer class="page-footer"></footer>
+    <script src="../js/registration.js"></script>
 </body>
 </html>

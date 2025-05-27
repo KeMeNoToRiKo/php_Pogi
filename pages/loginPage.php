@@ -13,7 +13,7 @@
     <header class="text-white py-3">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-                <img src="../assets/logo-.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;" />
+                <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;" />
                 <span class="fs-3 fw-bold">Soniqueo</span>
             </div>
             <div class="d-flex align-items-center gap-3">
@@ -45,5 +45,6 @@
             </div>
         </div>
     </section>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

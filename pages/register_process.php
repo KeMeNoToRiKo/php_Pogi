@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="login-container">
             <?php if ($success): ?>
                 <div class="alert alert-success">
-                    Registration successful! <a href="login.php" class="btn btn-dark">Go to login</a>.
+                    Registration successful! <a href="loginPage.php" class="btn btn-dark">Go to login</a>.
                 </div>
             <?php else: ?>
                 <div class="alert alert-danger">
