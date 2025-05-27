@@ -38,9 +38,19 @@ function displayCategory($title, $items) {
     <link rel="stylesheet" href="../css/logout.css">  <!-- CSS for logout button -->
 </head>
 <body>
-    <form method="post" class="logout-form">
-        <button type="submit" name="logout" class="logout-button">Logout</button>
-    </form>
+    <div class="top-buttons">
+        <!-- Cart button (right of logout) -->
+        <form action="cart.php" method="get">
+            <button type="submit" class="cart-button">Cart</button>
+        </form>
+
+        <!-- Logout button (left) -->
+        <form method="post">
+            <button type="submit" name="logout" class="logout-button">Logout</button>
+        </form>
+
+        
+    </div>
 
     <h1>Shop | New Arrivals | Sale</h1>
 
