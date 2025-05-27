@@ -12,6 +12,7 @@
 
     <?php
     // Helper: Find product by ID in all category arrays
+    //hello
     function findProductById($id, $lists) {
         foreach ($lists as $list) {
             foreach ($list as $product) {
