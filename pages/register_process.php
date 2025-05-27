@@ -1,3 +1,20 @@
+// Uses phpmyadmin SQL to store user credentials
+// Start MySQL in XAMPP Control Panel, go to your browser and type "localhost/myphpadmin"
+/* Head to SQL Command Line Client, and input the following SQL commands:
+
+CREATE DATABASE IF NOT EXISTS soniqueo_db;
+USE soniqueo_db;
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+*/
+// A table "users" is created to store the name, email, password and time of the user creation.
+
 <?php
     $servername = "localhost";
     $username = "root";
