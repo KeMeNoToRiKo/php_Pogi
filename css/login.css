@@ -1,0 +1,52 @@
+header {
+    background: linear-gradient(to right, #000000, #2c2c94);
+}
+.login-container {
+    padding: 40px;
+    flex: 1;
+}
+.info-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    font-weight: bold;
+}
+/* Center the form vertically and horizontally */
+/* Center the form vertically and horizontally */
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f8f9fa;
+}
+
+/* Style the registration box */
+.login-container {
+    background: linear-gradient(to right, #000000, #2c2c94);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Optional: Style the submit button */
+.btn-custom {
+    background-color: #4a90e2;
+    color: white;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #357ab8;
+}
+
+.login-text {
+    font-size: 50px;
+}
