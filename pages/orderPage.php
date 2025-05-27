@@ -1,11 +1,11 @@
-<?php include 'products.php'; ?>
+a<?php include 'products.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Order Products</title>
-    <link rel="stylesheet" href="../css/order.css" />
+    <link rel="stylesheet" href="../css/order.css">
 </head>
 <body>
     <h1>Shop | New Arrivals | Sale</h1>
@@ -19,7 +19,7 @@
                 <img src='{$item['image']}' alt='{$item['name']}' class='product-image'>
                 <h3 class='product-name'>{$item['name']}</h3>
                 <p class='product-price'>₱" . number_format($item['price']) . "</p>
-                <a href='orderpage2.php?id={$item['id']}' class='order-button'>Order Now</a>
+                <a href='#' class='order-button'>Order Now</a>
             </div>";
         }
         echo "</div>";
@@ -33,4 +33,3 @@
     ?>
 </body>
 </html>
-s
