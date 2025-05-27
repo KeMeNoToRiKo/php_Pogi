@@ -4,6 +4,7 @@ header {
 .login-container {
     padding: 40px;
     flex: 1;
+    
 }
 .info-container {
     flex: 1;
@@ -13,8 +14,7 @@ header {
     font-size: 100px;
     font-weight: bold;
 }
-/* Center the form vertically and horizontally */
-/* Center the form vertically and horizontally */
+
 section {
     display: flex;
     justify-content: center;

@@ -1,36 +1,132 @@
-<?php include 'products.php'; ?>
+<?php
+session_start();
 
+// Handle logout
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header('Location: loginPage.php');
+    exit();
+}
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: loginPage.php');
+    exit();
+}
+
+include 'products.php';
+
+function displayCategory($title, $items) {
+    echo "<h2 class='text-center mb-4'>" . htmlspecialchars($title) . "</h2>";
+    echo "<div class='product-grid'>";
+    foreach ($items as $item) {
+        $id = urlencode($item['id']);
+        $name = htmlspecialchars($item['name']);
+        $price = number_format($item['price']);
+        $image = htmlspecialchars($item['image']);
+
+        echo "
+            <div class='product-box'>
+                <img src='{$image}' alt='{$name}' class='product-image'>
+                <h3 class='product-name'>{$name}</h3>
+                <p class='product-price'>₱{$price}</p>
+                <a href='orderpage2.php?id={$id}' class='order-button'>Order Now</a>
+            </div>";
+    }
+    echo "</div>";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Order Products</title>
-    <link rel="stylesheet" href="../css/order.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/order.css">
+    <link rel="stylesheet" href="../css/logout.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
-    <h1>Shop | New Arrivals | Sale</h1>
 
-    <?php
-    function displayCategory($title, $items) {
-        echo "<h2>$title</h2><div class='product-grid'>";
-        foreach ($items as $item) {
-            echo "
-            <div class='product-box'>
-                <img src='{$item['image']}' alt='{$item['name']}' class='product-image'>
-                <h3 class='product-name'>{$item['name']}</h3>
-                <p class='product-price'>₱" . number_format($item['price']) . "</p>
-                <a href='orderpage2.php?id={$item['id']}' class='order-button'>Order Now</a>
-            </div>";
-        }
-        echo "</div>";
-    }
+    <!-- HEADER -->
+<header class="text-white py-3" style="background: linear-gradient(to right, #000000, #1a1a80);">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <!-- Left: Logo -->
+        <div class="d-flex align-items-center">
+            <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
+            <span class="fs-3 fw-bold">Soniqueo</span>
+        </div>
 
-    displayCategory("Guitars", $GuitarsList);
-    displayCategory("Drums and Percussion", $DrumsandPercussionList);
-    displayCategory("Recording Gear", $RecordingsList);
-    displayCategory("Lifestyle Accessories", $LifeStyleList);
-    displayCategory("Amplifiers and Effects", $AmplifierandEffectsList);
-    ?>
+        <!-- Middle: Search Bar -->
+        <form class="d-flex" style="width: 250px;">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+
+        <!-- Right: Icons + Buttons -->
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-wechat fs-4"></i>
+            <i class="bi bi-person-circle fs-4"></i>
+
+            <!-- Cart button -->
+             <form action="cart.php" method="get" class="m-0">
+        <button type="submit" class="btn btn-light btn-sm p-2 d-flex align-items-center justify-content-center" aria-label="Cart">
+            <i class="bi bi-cart fs-5"></i>
+        </button>
+    </form>
+
+            <!-- Logout button -->
+            <form method="post" class="m-0">
+                <button type="submit" name="logout" class="btn btn-danger btn-sm">Logout</button>
+            </form>
+        </div>
+    </div>
+
+        <!-- NAVIGATION -->
+        <nav class="mt-3">
+            <div class="container">
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="#" class="text-white text-decoration-none fw-semibold">Shop</a>
+                    <a href="#" class="text-white text-decoration-none fw-semibold">New Arrivals</a>
+                    <a href="#" class="text-white text-decoration-none fw-semibold">Sale</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container my-5">
+        <?php
+        displayCategory("Guitars", $GuitarsList);
+        displayCategory("Drums and Percussion", $DrumsandPercussionList);
+        displayCategory("Recording Gear", $RecordingsList);
+        displayCategory("Lifestyle Accessories", $LifeStyleList);
+        displayCategory("Amplifiers and Effects", $AmplifierandEffectsList);
+        ?>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-white py-4 mt-5" style="background: linear-gradient(to right, #000000, #1a1a80);">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div class="d-flex align-items-center mb-3 mb-md-0">
+                <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
+                <span class="fs-5 fw-bold">Soniqueo</span>
+            </div>
+
+            <div class="text-center mb-3 mb-md-0">
+                <p class="mb-0">© 2025 Soniqueo. All rights reserved.</p>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <a href="#" class="text-white"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-twitter fs-5"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-instagram fs-5"></i></a>
+            </div>
+        </div>
+    </footer>
+    
 </body>
 </html>
-s

@@ -1,85 +1,81 @@
-// Uses phpmyadmin SQL to store user credentials
-// Start MySQL in XAMPP Control Panel, go to your browser and type "localhost/myphpadmin"
-/* Head to SQL Command Line Client, and input the following SQL commands:
-
-CREATE DATABASE IF NOT EXISTS soniqueo_db;
-USE soniqueo_db;
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-*/
-// A table "users" is created to store the name, email, password and time of the user creation.
-
 <?php
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password_db = "";  // renamed to avoid confusion with form $password
     $dbname = "soniqueo_db";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn -> connect_error)
-    {
-        die("Connection failed: " . $conn -> connect_error);
+    $conn = new mysqli($servername, $username, $password_db, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    $first_name = trim($_POST['first_name']);
-    $last_name = trim($_POST['last_name']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    // Safely get POST inputs or default to empty strings
+    $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+    $last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
 
     $errors = [];
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
+    // Validate inputs
+    if (empty($first_name)) {
+        $errors[] = "First name is required.";
+    }
+    if (empty($last_name)) {
+        $errors[] = "Last name is required.";
+    }
+    if (empty($email)) {
+        $errors[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
     }
-
-    if ($password !== $confirm_password)
-    {
-        $errors[] = "Passwords do not match.";
-    } 
-
-    if (strlen($password) < 6)
-    {
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    } elseif (strlen($password) < 6) {
         $errors[] = "Password must be at least 6 characters.";
     }
-
-    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt -> bind_param("s", $email);
-    $stmt -> execute();
-    $stmt -> store_result();
-
-    if ($stmt -> num_rows > 0)
-    {
-        $errors[] = "Email is already registered.";
+    if ($password !== $confirm_password) {
+        $errors[] = "Passwords do not match.";
     }
 
-    $stmt -> close();
+    // Check if email already exists
+    if (empty($errors)) {
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            $errors[] = "Email is already registered.";
+        }
+
+        $stmt->close();
+    }
 
     $success = false;
 
-    if (empty($errors))
-    {
+    if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn -> prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $first_name, $last_name, $email, $hashed_password);
-        if ($stmt->execute())
-        {
+        if ($stmt->execute()) {
             $success = true;
         } else {
-            $errors[] = "Database error: " . $stmt -> error;
+            $errors[] = "Database error: " . $stmt->error;
         }
-
-        $stmt -> close();
+        $stmt->close();
     }
 
-    $conn -> close();
+    $conn->close();
+} else {
+    // Redirect if accessed without POST
+    header('Location: registrationPage.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -109,23 +105,21 @@ CREATE TABLE IF NOT EXISTS users (
 
     <section class="text-center mt-5">
         <div class="login-container">
-            <div class="login-container">
-                <?php if ($success): ?>
-                    <div class="alert alert-success">
-                        Registration successful! <a href="login.php" class="btn btn-dark">Go to login</a>.
-                    </div>
-                <?php else: ?>
-                    <div class="alert alert-danger">
-                        <h5 class="mb-3">There were some issues:</h5>
-                        <ul class="text-start">
-                            <?php foreach ($errors as $error): ?>
-                                <li><?= htmlspecialchars($error) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="registration.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    Registration successful! <a href="loginPage.php" class="btn btn-dark">Go to login</a>.
+                </div>
+            <?php else: ?>
+                <div class="alert alert-danger">
+                    <h5 class="mb-3">There were some issues:</h5>
+                    <ul class="text-start">
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <a href="registrationPage.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 </body>
