@@ -114,19 +114,16 @@ h1 {
         flex-direction: column;
         align-items: center;
     }
-
     .product-detail-container img.product-image,
     .product-detail-info {
         max-width: 100%;
         flex: none;
     }
-
     .quantity-section {
         flex-direction: row;
         justify-content: flex-start;
         width: 100%;
     }
-
     .quantity-input {
         width: 100px;
     }
@@ -135,5 +132,35 @@ h1 {
         width: 100%;
         text-align: center;
         align-self: center;
+    }
+}
+ .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #1c133b, #3c2fbd);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.header-icons {
+    font-size: 1.3rem;
+    display: flex;
+    gap: 15px;
+}
+
+.header-left {
+    white-space: nowrap;
+}
+
+.page-footer {
+    height: 60px;
+    background-color: #1c1c1c;
+    width: 100%;
+}
+
+
     }
 }
