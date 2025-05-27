@@ -5,26 +5,32 @@ session_start();
 if (isset($_POST['logout'])) {
     session_destroy();
     header('Location: loginPage.php');
-    exit();  // Always exit after redirect
+    exit();
 }
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: loginPage.php');
-    exit();  // Always exit after redirect
+    exit();
 }
 
 include 'products.php';
 
 function displayCategory($title, $items) {
-    echo "<h2>" . htmlspecialchars($title) . "</h2><div class='product-grid'>";
+    echo "<h2 class='text-center mb-4'>" . htmlspecialchars($title) . "</h2>";
+    echo "<div class='product-grid'>";
     foreach ($items as $item) {
+        $id = urlencode($item['id']);
+        $name = htmlspecialchars($item['name']);
+        $price = number_format($item['price']);
+        $image = htmlspecialchars($item['image']);
+
         echo "
-        <div class='product-box'>
-            <img src='" . htmlspecialchars($item['image']) . "' alt='" . htmlspecialchars($item['name']) . "' class='product-image'>
-            <h3 class='product-name'>" . htmlspecialchars($item['name']) . "</h3>
-            <p class='product-price'>₱" . number_format($item['price']) . "</p>
-            <a href='orderpage2.php?id=" . urlencode($item['id']) . "' class='order-button'>Order Now</a>
-        </div>";
+            <div class='product-box'>
+                <img src='{$image}' alt='{$name}' class='product-image'>
+                <h3 class='product-name'>{$name}</h3>
+                <p class='product-price'>₱{$price}</p>
+                <a href='orderpage2.php?id={$id}' class='order-button'>Order Now</a>
+            </div>";
     }
     echo "</div>";
 }
@@ -38,30 +44,46 @@ function displayCategory($title, $items) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/order.css">
+    <link rel="stylesheet" href="../css/logout.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
 
     <!-- HEADER -->
-    <header class="text-white py-3" style="background: linear-gradient(to right, #000000, #1a1a80);">
-        <div class="container d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-                <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
-                <span class="fs-3 fw-bold">Soniqueo</span>
-            </div>
-
-            <form class="d-flex" style="width: 250px;">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
-
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-wechat fs-4"></i>
-                <i class="bi bi-person-circle fs-4"></i>
-            </div>
+<header class="text-white py-3" style="background: linear-gradient(to right, #000000, #1a1a80);">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <!-- Left: Logo -->
+        <div class="d-flex align-items-center">
+            <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" style="height: 40px; margin-right: 10px;">
+            <span class="fs-3 fw-bold">Soniqueo</span>
         </div>
+
+        <!-- Middle: Search Bar -->
+        <form class="d-flex" style="width: 250px;">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+
+        <!-- Right: Icons + Buttons -->
+        <div class="d-flex align-items-center gap-3">
+            <i class="bi bi-wechat fs-4"></i>
+            <i class="bi bi-person-circle fs-4"></i>
+
+            <!-- Cart button -->
+             <form action="cart.php" method="get" class="m-0">
+        <button type="submit" class="btn btn-light btn-sm p-2 d-flex align-items-center justify-content-center" aria-label="Cart">
+            <i class="bi bi-cart fs-5"></i>
+        </button>
+    </form>
+
+            <!-- Logout button -->
+            <form method="post" class="m-0">
+                <button type="submit" name="logout" class="btn btn-danger btn-sm">Logout</button>
+            </form>
+        </div>
+    </div>
 
         <!-- NAVIGATION -->
         <nav class="mt-3">
@@ -78,26 +100,6 @@ function displayCategory($title, $items) {
     <!-- MAIN CONTENT -->
     <main class="container my-5">
         <?php
-        function displayCategory($title, $items) {
-            echo "<h2 class='text-center mb-4'>" . htmlspecialchars($title) . "</h2>";
-            echo "<div class='product-grid'>";
-            foreach ($items as $item) {
-                $id = urlencode($item['id']);
-                $name = htmlspecialchars($item['name']);
-                $price = number_format($item['price']);
-                $image = htmlspecialchars($item['image']);
-
-                echo "
-                    <div class='product-box'>
-                        <img src='{$image}' alt='{$name}' class='product-image'>
-                        <h3 class='product-name'>{$name}</h3>
-                        <p class='product-price'>₱{$price}</p>
-                        <a href='orderpage2.php?id={$id}' class='order-button'>Order Now</a>
-                    </div>";
-            }
-            echo "</div>";
-        }
-
         displayCategory("Guitars", $GuitarsList);
         displayCategory("Drums and Percussion", $DrumsandPercussionList);
         displayCategory("Recording Gear", $RecordingsList);
@@ -125,25 +127,6 @@ function displayCategory($title, $items) {
             </div>
         </div>
     </footer>
-
-=======
-    <title>Order Products</title>
-    <link rel="stylesheet" href="../css/order.css">
-    <link rel="stylesheet" href="../css/logout.css">  <!-- CSS for logout button -->
-</head>
-<body>
-    <form method="post" class="logout-form">
-        <button type="submit" name="logout" class="logout-button">Logout</button>
-    </form>
-
-    <h1>Shop | New Arrivals | Sale</h1>
-
-    <?php
-    displayCategory("Guitars", $GuitarsList);
-    displayCategory("Drums and Percussion", $DrumsandPercussionList);
-    displayCategory("Recording Gear", $RecordingsList);
-    displayCategory("Lifestyle Accessories", $LifeStyleList);
-    displayCategory("Amplifiers and Effects", $AmplifierandEffectsList);
-    ?>
+    
 </body>
 </html>
