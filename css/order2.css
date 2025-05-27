@@ -1,0 +1,139 @@
+/* General body and headings */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f2f2f2;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.single-product-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.single-product-name {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.product-detail-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.product-detail-container img.product-image {
+    flex: 0 0 300px;
+    max-width: 50%;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.product-detail-info {
+    flex: 1;
+    max-width: 420px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.product-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.quantity-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.quantity-section label {
+    margin-right: 15px;
+    white-space: nowrap;
+}
+
+.quantity-input {
+    width: 70px;
+    padding: 6px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.order-button {
+    padding: 12px 30px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+}
+
+.order-button:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .product-detail-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-detail-container img.product-image,
+    .product-detail-info {
+        max-width: 100%;
+        flex: none;
+    }
+
+    .quantity-section {
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .quantity-input {
+        width: 100px;
+    }
+
+    .order-button {
+        width: 100%;
+        text-align: center;
+        align-self: center;
+    }
+}
