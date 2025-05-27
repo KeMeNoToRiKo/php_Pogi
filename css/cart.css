@@ -110,6 +110,7 @@ hr {
     cursor: pointer;
     text-decoration: underline;
 }
+
 .back-btn {
     display: inline-block;
     padding: 8px 20px;
@@ -122,6 +123,7 @@ hr {
     transition: background 0.2s;
     margin-bottom: 20px;
 }
+
 .back-btn:hover {
     background: #ddd;
 }

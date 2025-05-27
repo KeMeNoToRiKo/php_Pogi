@@ -52,9 +52,9 @@ if (isset($_POST['clear_cart'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Your Cart</title>
-    <link rel="stylesheet" href="../css/cart.css">
+    <link rel="stylesheet" href="../css/cart.css" />
 </head>
 <body>
 
@@ -65,17 +65,7 @@ if (isset($_POST['clear_cart'])) {
 
 <!-- Back Button -->
 <div style="margin: 20px 0;">
-    <a href="orderPage.php" class="back-btn" style="
-        display: inline-block;
-        padding: 8px 20px;
-        background: #eee;
-        color: #222;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        border: 1px solid #ccc;
-        transition: background 0.2s;
-    ">&larr; Back to Product</a>
+    <a href="orderPage.php" class="back-btn">&larr; Back to Product</a>
 </div>
 
 <div class="cart-page">
@@ -90,24 +80,24 @@ if (isset($_POST['clear_cart'])) {
                 $total += $itemTotal;
         ?>
             <div class="cart-item">
-                <img src="<?= htmlspecialchars($item['image']) ?>" alt="Product" class="cart-image">
+                <img src="<?= htmlspecialchars($item['image']) ?>" alt="Product" class="cart-image" />
                 <div class="item-info">
                     <p class="name"><?= htmlspecialchars($item['name']) ?></p>
                     <p class="price">₱<?= number_format($item['price'], 2) ?></p>
                     <div class="quantity-controls">
                         <form method="post" style="display:inline;">
-                            <input type="hidden" name="update_quantity" value="1">
-                            <input type="hidden" name="product_id" value="<?= $id ?>">
-                            <input type="hidden" name="action" value="decrement">
+                            <input type="hidden" name="update_quantity" value="1" />
+                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($id) ?>" />
+                            <input type="hidden" name="action" value="decrement" />
                             <button type="submit">-</button>
                         </form>
 
                         <span><?= htmlspecialchars($item['quantity']) ?></span>
 
                         <form method="post" style="display:inline;">
-                            <input type="hidden" name="update_quantity" value="1">
-                            <input type="hidden" name="product_id" value="<?= $id ?>">
-                            <input type="hidden" name="action" value="increment">
+                            <input type="hidden" name="update_quantity" value="1" />
+                            <input type="hidden" name="product_id" value="<?= htmlspecialchars($id) ?>" />
+                            <input type="hidden" name="action" value="increment" />
                             <button type="submit">+</button>
                         </form>
                     </div>
@@ -127,10 +117,9 @@ if (isset($_POST['clear_cart'])) {
             <span>₱<?= number_format($total, 2) ?></span>
         </div>
         <hr>
-       <form method="post" action="receipt.php">
-    <button class="checkout-btn" type="submit" name="checkout">Check Out</button>
-</form>
-
+        <form method="post" action="receipt.php">
+            <button class="checkout-btn" type="submit" name="checkout">Check Out</button>
+        </form>
     </div>
 </div>
 
