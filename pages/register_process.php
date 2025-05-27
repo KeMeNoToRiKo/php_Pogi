@@ -1,85 +1,64 @@
-// Uses phpmyadmin SQL to store user credentials
-// Start MySQL in XAMPP Control Panel, go to your browser and type "localhost/myphpadmin"
-/* Head to SQL Command Line Client, and input the following SQL commands:
-
-CREATE DATABASE IF NOT EXISTS soniqueo_db;
-USE soniqueo_db;
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-*/
-// A table "users" is created to store the name, email, password and time of the user creation.
-
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "soniqueo_db";
+session_start();
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn -> connect_error)
-    {
-        die("Connection failed: " . $conn -> connect_error);
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "soniqueo_db";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Safely fetch POST data
+$first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+$last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$password = $_POST['password'] ?? '';
+$confirm_password = $_POST['confirm_password'] ?? '';
+
+$errors = [];
+$success = false;
+
+// Validation
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = "Invalid email format.";
+}
+if ($password !== $confirm_password) {
+    $errors[] = "Passwords do not match.";
+}
+if (strlen($password) < 6) {
+    $errors[] = "Password must be at least 6 characters.";
+}
+
+// Check if email already exists
+$stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    $errors[] = "Email is already registered.";
+}
+$stmt->close();
+
+// Insert new user
+if (empty($errors)) {
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $first_name, $last_name, $email, $hashed_password);
+
+    if ($stmt->execute()) {
+        $success = true;
+    } else {
+        $errors[] = "Database error: " . $stmt->error;
     }
+    $stmt->close();
+}
 
-    $first_name = trim($_POST['first_name']);
-    $last_name = trim($_POST['last_name']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-
-    $errors = [];
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $errors[] = "Invalid email format.";
-    }
-
-    if ($password !== $confirm_password)
-    {
-        $errors[] = "Passwords do not match.";
-    } 
-
-    if (strlen($password) < 6)
-    {
-        $errors[] = "Password must be at least 6 characters.";
-    }
-
-    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt -> bind_param("s", $email);
-    $stmt -> execute();
-    $stmt -> store_result();
-
-    if ($stmt -> num_rows > 0)
-    {
-        $errors[] = "Email is already registered.";
-    }
-
-    $stmt -> close();
-
-    $success = false;
-
-    if (empty($errors))
-    {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn -> prepare("INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $first_name, $last_name, $email, $hashed_password);
-        if ($stmt->execute())
-        {
-            $success = true;
-        } else {
-            $errors[] = "Database error: " . $stmt -> error;
-        }
-
-        $stmt -> close();
-    }
-
-    $conn -> close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -87,6 +66,7 @@ CREATE TABLE IF NOT EXISTS users (
 <head>
     <meta charset="UTF-8">
     <title>Registration Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/registration.css">
@@ -108,24 +88,23 @@ CREATE TABLE IF NOT EXISTS users (
     </header>
 
     <section class="text-center mt-5">
-        <div class="login-container">
-            <div class="login-container">
-                <?php if ($success): ?>
-                    <div class="alert alert-success">
-                        Registration successful! <a href="login.php" class="btn btn-dark">Go to login</a>.
-                    </div>
-                <?php else: ?>
-                    <div class="alert alert-danger">
-                        <h5 class="mb-3">There were some issues:</h5>
-                        <ul class="text-start">
-                            <?php foreach ($errors as $error): ?>
-                                <li><?= htmlspecialchars($error) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="registration.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
-                    </div>
-                <?php endif; ?>
-            </div>
+        <div class="container">
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    Registration successful! 🎉<br>
+                    <a href="login.php" class="btn btn-dark mt-3">Go to Login</a>
+                </div>
+            <?php else: ?>
+                <div class="alert alert-danger">
+                    <h5 class="mb-3">There were some issues:</h5>
+                    <ul class="text-start">
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <a href="registration.php" class="btn btn-outline-dark mt-3">Back to Registration</a>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 </body>
