@@ -30,11 +30,13 @@ Step 3:
 
     -- Create orders table
     CREATE TABLE IF NOT EXISTS orders (
-        order_id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL,
-        product VARCHAR(100) NOT NULL,
-        id VARCHAR(50) NOT NULL,  -- Product ID (e.g., G001, D002)
-        quantity INT NOT NULL DEFAULT 1,
-        order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    );
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id VARCHAR(20) NOT NULL,
+    quantity INT NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    -- Foreign key linking to users table
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE
+);
