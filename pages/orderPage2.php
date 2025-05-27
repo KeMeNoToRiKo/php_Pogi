@@ -8,11 +8,18 @@
     <link rel="stylesheet" href="../css/order2.css" />
 </head>
 <body>
+    <?
+    //header of orderpage2
+    ?>
+    <header class="main-header">
+  <div class="header-left">Mga Pogi Shop</div>
+  <div class="header-icons">🛒 🗨️ 👤 📞</div>
+</header>
+
     <h1>Product Details</h1>
 
     <?php
     // Helper: Find product by ID in all category arrays
-    //hello
     function findProductById($id, $lists) {
         foreach ($lists as $list) {
             foreach ($list as $product) {
@@ -36,6 +43,7 @@
             <h2 class="single-product-name"><?= htmlspecialchars($product['name']) ?></h2>
 
             <form action="cart.php" method="post" class="product-detail-form">
+
                 <div class="product-detail-container">
                     <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-image" />
 
@@ -74,5 +82,6 @@
         echo "<p>No product selected.</p>";
     endif;
     ?>
+    <footer class="page-footer"></footer>
 </body>
 </html>
