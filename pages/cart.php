@@ -65,7 +65,7 @@ if (isset($_POST['clear_cart'])) {
 
 <!-- Back Button -->
 <div style="margin: 20px 0;">
-    <a href="orderPage2.php" class="back-btn" style="
+    <a href="orderPage.php" class="back-btn" style="
         display: inline-block;
         padding: 8px 20px;
         background: #eee;
@@ -127,7 +127,10 @@ if (isset($_POST['clear_cart'])) {
             <span>₱<?= number_format($total, 2) ?></span>
         </div>
         <hr>
-        <button class="checkout-btn">Check Out</button>
+       <form method="post" action="receipt.php">
+    <button class="checkout-btn" type="submit" name="checkout">Check Out</button>
+</form>
+
     </div>
 </div>
 
