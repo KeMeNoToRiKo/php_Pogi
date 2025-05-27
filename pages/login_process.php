@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -18,17 +20,20 @@ $success = false;
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors[] = "Invalid email format.";
 } else {
-    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows == 1) {
-        $stmt->bind_result($hashed_password);
+        $stmt->bind_result($user_id, $hashed_password);
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $user_id;
             $success = true;
+            header("Location: orderpage.php"); // 👈 redirect to protected page
+            exit();
         } else {
             $errors[] = "Incorrect password.";
         }
@@ -68,24 +73,17 @@ $conn->close();
 
     <section class="text-center mt-5">
         <div class="login-container">
-            <div class="login-container">
-                <?php if ($success): ?>
-                    <div class="alert alert-success">
-                        Login successful! 🎉<br>
-                        (You can now redirect or start a session.)
-                    </div>
-                <?php else: ?>
-                    <div class="alert alert-danger">
-                        <h5 class="mb-3">Login failed:</h5>
-                        <ul class="text-start">
-                            <?php foreach ($errors as $error): ?>
-                                <li><?= htmlspecialchars($error) ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <a href="login.php" class="btn btn-outline-dark mt-3">Try Again</a>
-                    </div>
-                <?php endif; ?>
-            </div>
+            <?php if (!$success): ?>
+                <div class="alert alert-danger">
+                    <h5 class="mb-3">Login failed:</h5>
+                    <ul class="text-start">
+                        <?php foreach ($errors as $error): ?>
+                            <li><?= htmlspecialchars($error) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <a href="login.php" class="btn btn-outline-dark mt-3">Try Again</a>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 </body>

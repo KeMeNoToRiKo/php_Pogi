@@ -6,14 +6,43 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
     exit;
 }
 
-// Optionally, store order in database here before clearing session
+// Your DB connection settings
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'soniqueo_db';
+
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+// Replace this with your logged-in user's ID from session or auth system
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
 
 $total = 0;
 $items = $_SESSION['cart'];
 
-// Clear the cart after storing the items for receipt
+// Insert orders into DB
+$order_date = date('Y-m-d H:i:s');
+
+$stmt = $conn->prepare("INSERT INTO orders (user_id, product_id, quantity, order_date) VALUES (?, ?, ?, ?)");
+
+foreach ($items as $product_id => $item) {
+    $quantity = $item['quantity'];
+    $stmt->bind_param("iiis", $user_id, $product_id, $quantity, $order_date);
+    $stmt->execute();
+
+    $total += $item['price'] * $quantity;
+}
+
+$stmt->close();
+$conn->close();
+
+// Clear cart session after inserting to DB
 unset($_SESSION['cart']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +59,6 @@ unset($_SESSION['cart']);
             <div class="receipt-item">
                 <p><strong><?= htmlspecialchars($item['name']) ?></strong> x<?= $item['quantity'] ?> - ₱<?= number_format($item['price'] * $item['quantity'], 2) ?></p>
             </div>
-            <?php $total += $item['price'] * $item['quantity']; ?>
         <?php endforeach; ?>
         <hr>
         <p class="total">Total: ₱<?= number_format($total, 2) ?></p>
