@@ -59,7 +59,10 @@ if (isset($_POST['clear_cart'])) {
 <body>
 
 <header class="main-header">
-    <div class="header-left">Mga Pogi Shop</div>
+    <div class="header-left d-flex align-items-center">
+        <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" class="logo">
+        <span class="fs-3 fw-bold">Soniqueo</span>
+    </div>
     <div class="header-icons">🛒 🗨️ 👤 📞</div>
 </header>
 
