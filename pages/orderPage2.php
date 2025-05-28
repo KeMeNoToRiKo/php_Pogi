@@ -12,9 +12,12 @@
     //header of orderpage2
     ?>
     <header class="main-header">
-  <div class="header-left">Mga Pogi Shop</div>
-  <div class="header-icons">🛒 🗨️ 👤 📞</div>
-</header>
+        <div class="header-left d-flex align-items-center">
+            <img src="../assets/SoniqueoLOGO.png" alt="Soniqueo Logo" class="logo">
+            <span class="fs-3 fw-bold ms-2">Soniqueo</span>
+        </div>
+        <div class="header-icons">🛒 🗨️ 👤 📞</div>
+    </header>
 
     <h1>Product Details</h1>
 

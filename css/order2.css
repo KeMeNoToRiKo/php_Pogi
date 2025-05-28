@@ -139,28 +139,31 @@ h1 {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: linear-gradient(to right, #1c133b, #3c2fbd);
+    background-color: #2c2c94; /* Adjust to match your theme */
     color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.header-icons {
-    font-size: 1.3rem;
-    display: flex;
-    gap: 15px;
 }
 
 .header-left {
-    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+.header-left .logo {
+    height: auto; /* Allow the height to adjust dynamically */
+    width: auto; /* Maintain aspect ratio */
+    max-height: 1em; /* Match the text size */
+    margin-right: 10px; /* Add spacing between the logo and text */
+    vertical-align: middle; /* Align with the text */
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adjust spacing between icons */
 }
 
 .page-footer {
     height: 60px;
     background-color: #1c1c1c;
     width: 100%;
-}
-
-
-    }
 }

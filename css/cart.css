@@ -9,16 +9,28 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
-    background: linear-gradient(to right, #111, #2a2a99);
+    padding: 10px 20px;
+    background-color: #2c2c94; /* Adjust to match your theme */
     color: white;
-    font-size: 20px;
-    font-weight: bold;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .logo {
+    height: auto; /* Allow the height to adjust dynamically */
+    width: auto; /* Maintain aspect ratio */
+    max-height: 1em; /* Match the text size */
+    margin-right: 10px; /* Add spacing between the logo and text */
+    vertical-align: middle; /* Align with the text */
 }
 
 .header-icons {
-    font-size: 18px;
-    gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adjust spacing between icons */
 }
 
 .cart-page {
